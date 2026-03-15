@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión Clínica Veterinaria</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./assets/css/main.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navbar" style="display: none;">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-heart-pulse"></i>
+                Clínica Veterinaria
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3" id="welcomeText"></span>
+                <button class="btn btn-outline-light btn-sm" id="logoutBtn">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-5" id="loginSection">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4><i class="bi bi-person-lock"></i> Iniciar Sesión</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="loginForm">
+                            <div class="mb-3">
+                                <label for="usuario" class="form-label">Usuario:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="usuario" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Contraseña:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="password" required>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Ingresar
+                                </button>
+                            </div>
+                        </form>
+                        <div id="loginError" class="alert alert-danger mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4" id="dashboardSection" style="display: none;">
+        
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3><i class="bi bi-clipboard-data"></i> Panel de Control</h3>
+                                <p class="mb-0" id="medicoInfo"></p>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addPatientModal">
+                                    <i class="bi bi-person-plus"></i>
+                                    Agregar Paciente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchPatient" placeholder="Buscar paciente por nombre...">
+                            <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-people"></i> Mis Pacientes</h5>
+                        <span class="badge bg-secondary" id="patientCount">0</span>
+                    </div>
+                    <div class="card-body">
+                        <div id="patientList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="addPatientModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-person-plus"></i>
+                        Agregar Nuevo Paciente
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPatientForm">
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-person"></i>
+                            Datos del Paciente
+                        </h6>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="patientNombre" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="patientNombre" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="patientApellido" class="form-label">Apellido *</label>
+                                <input type="text" class="form-control" id="patientApellido" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="patientFechaNacimiento" class="form-label">Fecha de Nacimiento *</label>
+                                <input type="date" class="form-control" id="patientFechaNacimiento" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="patientDiagnostico" class="form-label">Diagnóstico *</label>
+                                <input type="text" class="form-control" id="patientDiagnostico" required>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        <h6 class="text-primary mb-3">
+                            <i class="bi bi-person-check"></i>
+                            Datos del Apoderado
+                        </h6>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="apoderadoNombre" class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" id="apoderadoNombre" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apoderadoApellido" class="form-label">Apellido *</label>
+                                <input type="text" class="form-control" id="apoderadoApellido" required>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="apoderadoEmail" class="form-label">email *</label>
+                                <input type="email" class="form-control" id="apoderadoEmail" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="apoderadoTelefono" class="form-label">Teléfono *</label>
+                                <input type="tel" class="form-control" id="apoderadoTelefono" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="apoderadoParentesco" class="form-label">Parentesco *</label>
+                                <select class="form-select" id="apoderadoParentesco" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Padre">Padre</option>
+                                    <option value="Madre">Madre</option>
+                                    <option value="Abuelo">Abuelo</option>
+                                    <option value="Abuela">Abuela</option>
+                                    <option value="Tío">Tío</option>
+                                    <option value="Tía">Tía</option>
+                                    <option value="Tutor Legal">Tutor Legal</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="addPatientError" class="alert alert-danger" style="display: none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="addPatientForm" class="btn btn-primary">
+                        <i class="bi bi-save"></i>
+                        Guardar Paciente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="editarDiagnosticoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-pencil"></i> Editar Diagnóstico
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarDiagnosticoForm">
+                        <input type="hidden" id="editPacienteId">
+                        
+                        <div class="mb-3">
+                            <label for="editPacienteNombre" class="form-label">Paciente</label>
+                            <input type="text" class="form-control" id="editPacienteNombre" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="editDiagnostico" class="form-label">Diagnóstico *</label>
+                            <textarea class="form-control" id="editDiagnostico" rows="4" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="editarDiagnosticoForm" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cambiarEstadoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-arrow-repeat"></i> Cambiar Estado
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="cambiarEstadoForm">
+                        <input type="hidden" id="cambiarEstadoMascotaId">
+                        
+                        <div class="mb-3">
+                            <label for="cambiarEstadoMascotaNombre" class="form-label">Mascota</label>
+                            <input type="text" class="form-control" id="cambiarEstadoMascotaNombre" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="nuevoEstado" class="form-label">Nuevo Estado *</label>
+                            <select class="form-select" id="nuevoEstado" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="tratamiento">En Tratamiento</option>
+                                <option value="recuperacion">En Recuperación</option>
+                                <option value="alta">Alta Médica</option>
+                                <option value="observacion">En Observación</option>
+                                <option value="critico">Estado Crítico</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="cambiarEstadoForm" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./assets/js/main.js"></script>
+    
+</body>
+</html>

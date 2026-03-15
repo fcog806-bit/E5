@@ -1,0 +1,219 @@
+/* 
+Estilos personalizados para el Sistema de Gestión Clínica Médica
+*/
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --info-color: #0dcaf0;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+/* Efectos de transición suaves */
+.btn, .card, .form-control, .form-select {
+    transition: all 0.3s ease;
+}
+
+/* Hover effects para botones */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cards con sombra suave */
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos para el login */
+#loginSection .card {
+    border-radius: 15px;
+}
+
+#loginSection .card-header {
+    border-radius: 15px 15px 0 0 !important;
+}
+
+/* Input groups con bordes redondeados */
+.input-group .form-control:first-child,
+.input-group .input-group-text:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.input-group .form-control:last-child,
+.input-group .btn:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Dashboard header gradient */
+.bg-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%) !important;
+}
+
+/* Patient cards styling */
+.card-body .row .col-sm-6 h6 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.8em;
+    padding: 0.5em 0.75em;
+    border-radius: 20px;
+}
+
+/* Modal styling */
+.modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-radius: 15px 15px 0 0 !important;
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+    border-radius: 0 0 15px 15px !important;
+}
+
+/* Form controls */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Icons styling */
+.bi {
+    font-size: 1.1em;
+}
+
+/* Navbar brand */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* Toast styles */
+.toast {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Search input styling */
+#searchPatient {
+    border-radius: 25px;
+    padding-left: 3rem;
+}
+
+/* Empty state styling */
+.text-center.text-muted {
+    padding: 3rem 1rem;
+}
+
+.text-center.text-muted .display-4 {
+    opacity: 0.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .card-body .row .col-sm-6 {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-dialog {
+        margin: 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Success message styling */
+.alert-success {
+    background-color: #d1f2eb;
+    border-color: #b4e7ce;
+    color: #0c5d3c;
+    border-radius: 10px;
+}
+
+/* Error message styling */
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f1aeb5;
+    color: #842029;
+    border-radius: 10px;
+}
+
+/* Custom scrollbar for patient list */
+#patientList {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#patientList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#patientList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#patientList::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+#patientList::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
