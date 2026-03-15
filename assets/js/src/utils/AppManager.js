@@ -69,4 +69,33 @@ export class AppManager {
         
         return true;
     }
+
+    static cambiarEstado(veterinarioActual, mascotaId, nuevoEstado) {
+        if (!veterinarioActual) {
+            alert('Debes iniciar sesión para realizar esta acción');
+            return false;
+        }
+
+        const mascota = veterinarioActual.mascotas.find(m => m.id === mascotaId);
+        
+        if (!mascota) {
+            alert('Mascota no encontrada');
+            return false;
+        }
+
+        try {
+            mascota.cambiarEstado(nuevoEstado);
+            Render.mostrarMascotas(veterinarioActual.mascotas);
+            
+            let mensaje = 'Estado actualizado correctamente';
+            if (nuevoEstado === 'alta') mensaje = 'Mascota dada de alta';
+            if (nuevoEstado === 'critico') mensaje = 'Estado crítico actualizado';
+            
+            alert(mensaje);
+            return true;
+        } catch (error) {
+            alert('Error al cambiar el estado: ' + error.message);
+            return false;
+        }
+    }
 }

@@ -10,6 +10,7 @@ export class Mascota {
     #fechaNacimiento
     #dueño = null 
     #isAlta = false
+    #estado = 'tratamiento'
 
     constructor(nombre, especie, fechaNacimiento, diagnostico) {
         this.#id = crypto.randomUUID()
@@ -18,7 +19,8 @@ export class Mascota {
         this.#fechaNacimiento = fechaNacimiento
         this.#diagnostico = diagnostico
         this.#isAlta = false
-    }
+        this.#estado = 'tratamiento'
+    }               
 
     get id() {
         return this.#id
@@ -63,6 +65,32 @@ export class Mascota {
     get isAlta() {
         return this.#isAlta
     }
+    
+    get estado() {
+        return this.#estado
+    }
+    
+    get estadoTexto() {
+        const estados = {
+            'tratamiento': 'En Tratamiento',
+            'recuperacion': 'En Recuperación',
+            'observacion': 'En Observación',
+            'critico': 'Estado Crítico',
+            'alta': 'Alta Médica'
+        }
+        return estados[this.#estado] || 'En Tratamiento'
+    }
+
+    get badgeColor() {
+        const colores = {
+            'tratamiento': 'bg-warning text-dark',
+            'recuperacion': 'bg-info text-white',
+            'observacion': 'bg-primary text-white',
+            'critico': 'bg-danger text-white',
+            'alta': 'bg-success text-white'
+        }
+        return colores[this.#estado] || 'bg-warning text-dark'
+    }
 
     setNombre(newNombre) {
         this.#nombre = Validator.nombre(newNombre, REGEX_NAME, "Nombre mascota no válido")
@@ -78,6 +106,16 @@ export class Mascota {
 
     actualizarDiagnostico(nuevoDiagnostico) {
         this.#diagnostico = nuevoDiagnostico
+    }
+
+    cambiarEstado(nuevoEstado) {
+        const estadosValidos = ['tratamiento', 'recuperacion', 'observacion', 'critico', 'alta']
+        if (!estadosValidos.includes(nuevoEstado)) {
+            throw new Error('Estado no válido')
+        }
+        this.#estado = nuevoEstado
+        this.#isAlta = (nuevoEstado === 'alta')
+        return this.#estado
     }
 
     toggleAlta() { 

@@ -13,6 +13,7 @@ const formularioPaciente = document.querySelector("#addPatientForm");
 const buscadorPaciente = document.querySelector("#searchPatient");
 const logoutBtn = document.querySelector("#logoutBtn");
 const editarDiagnosticoForm = document.querySelector("#editarDiagnosticoForm");
+const cambiarEstadoForm = document.querySelector("#cambiarEstadoForm");
 
 console.log(window.bootstrap)
 
@@ -31,7 +32,7 @@ veterinario.agregarMascota(mascota1)
 veterinario.agregarMascota(mascota2)
 
 console.log('Usuario generado:', veterinario.usuario)
-console.log('Contraseña:', '123456789')
+console.log('Contraseña:', '123456')
 
 Auth.registrarVeterinario(veterinario)
 
@@ -101,6 +102,40 @@ document.addEventListener('click', (event) => {
             }
         }
     }
+
+    const cambiarEstadoBtn = event.target.closest('.cambiar-estado-btn');
+    if (cambiarEstadoBtn) {
+        const mascotaId = cambiarEstadoBtn.dataset.mascotaId;
+        
+        if (!veterinarioActual) {
+            alert('Debes iniciar sesión para cambiar el estado');
+            return;
+        }
+        
+        const mascota = veterinarioActual.mascotas.find(m => m.id === mascotaId);
+        
+        if (mascota) {
+            const cambiarEstadoMascotaId = document.querySelector('#cambiarEstadoMascotaId');
+            const cambiarEstadoMascotaNombre = document.querySelector('#cambiarEstadoMascotaNombre');
+            const nuevoEstado = document.querySelector('#nuevoEstado');
+            
+            if (!cambiarEstadoMascotaId || !cambiarEstadoMascotaNombre || !nuevoEstado) {
+                console.error('No se encontraron los elementos del modal de cambio de estado');
+                alert('Error: No se encontró el formulario de cambio de estado');
+                return;
+            }
+            
+            cambiarEstadoMascotaId.value = mascota.id;
+            cambiarEstadoMascotaNombre.value = mascota.nombreCompleto;
+            nuevoEstado.value = mascota.estado || 'tratamiento';
+            
+            const modalElement = document.querySelector('#cambiarEstadoModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        }
+    }
 });
 
 if (editarDiagnosticoForm) {
@@ -120,6 +155,28 @@ if (editarDiagnosticoForm) {
                     if (modal) modal.hide();
                 }
                 alert('Diagnóstico actualizado correctamente');
+            }
+        }
+    });
+}
+
+if (cambiarEstadoForm) {
+    cambiarEstadoForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const mascotaId = document.querySelector('#cambiarEstadoMascotaId')?.value;
+        const nuevoEstado = document.querySelector('#nuevoEstado')?.value;
+        
+        if (veterinarioActual && mascotaId && nuevoEstado) {
+            const resultado = AppManager.cambiarEstado(veterinarioActual, mascotaId, nuevoEstado);
+            
+            if (resultado) {
+                const modalElement = document.querySelector('#cambiarEstadoModal');
+                if (modalElement) {
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    if (modal) modal.hide();
+                }
+                alert('Estado actualizado correctamente');
             }
         }
     });

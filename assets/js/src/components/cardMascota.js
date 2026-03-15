@@ -1,8 +1,5 @@
 export class Componentes {
     static crearTarjetaMascota(mascota) {
-        const badgeColor = mascota.isAlta ? 'bg-success' : 'bg-warning text-dark';
-        const estadoTexto = mascota.isAlta ? 'Alta Médica' : 'En Tratamiento';
-
         return `
             <div class="card mb-3 border-start border-4 border-info shadow-sm" data-mascota-id="${mascota.id}">
                 <div class="card-body">
@@ -48,9 +45,9 @@ export class Componentes {
                         </div>
                         <div class="col-md-4 text-end">
                             <div class="d-flex flex-column align-items-end gap-2">
-                                <span class="badge ${badgeColor} p-2">
+                                <span class="badge ${mascota.badgeColor} p-2">
                                     <i class="bi ${mascota.isAlta ? 'bi-check-circle' : 'bi-clock-history'}"></i>
-                                    ${estadoTexto}
+                                    ${mascota.estadoTexto}
                                 </span>
                                 <button class="btn btn-sm btn-outline-secondary cambiar-estado-btn" 
                                         data-mascota-id="${mascota.id}"
